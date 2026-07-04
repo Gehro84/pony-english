@@ -95,6 +95,39 @@ function ton(frequenzen) {
   }
 }
 
+// ----- Spaced Repetition (Karteikästchen-Prinzip) -----
+// Pro Wort merken wir das Kästchen (0-4) und wann es wieder dran ist.
+// Richtig: ein Kästchen weiter, Pause wird länger. Falsch: zurück auf Kästchen 0.
+const BOX_TAGE = [0, 1, 3, 7, 30]; // Wartezeit in Tagen pro Kästchen
+
+let lernstand = JSON.parse(localStorage.getItem("lernstand")) || {};
+
+function lernstandMerken(wortEn, istRichtig) {
+  const eintrag = lernstand[wortEn] || { box: 0 };
+  eintrag.box = istRichtig ? Math.min(eintrag.box + 1, BOX_TAGE.length - 1) : 0;
+  eintrag.faellig = Date.now() + BOX_TAGE[eintrag.box] * 24 * 60 * 60 * 1000;
+  lernstand[wortEn] = eintrag;
+  localStorage.setItem("lernstand", JSON.stringify(lernstand));
+}
+
+// Wählt die Fragen der Runde: zuerst fällige Wiederholungen,
+// dann neue Wörter, zuletzt die wackligsten der restlichen Wörter.
+function fragenAuswaehlen() {
+  const jetzt = Date.now();
+  const mischen = (liste) => liste.sort(() => Math.random() - 0.5);
+  const faellig = [], neu = [], rest = [];
+  for (const w of WOERTER) {
+    const s = lernstand[w.en];
+    if (!s) neu.push(w);
+    else if (s.faellig <= jetzt) faellig.push(w);
+    else rest.push(w);
+  }
+  mischen(faellig);
+  mischen(neu);
+  mischen(rest).sort((a, b) => lernstand[a.en].box - lernstand[b.en].box);
+  return [...faellig, ...neu, ...rest].slice(0, FRAGEN_PRO_RUNDE);
+}
+
 // ----- Quiz -----
 const FRAGEN_PRO_RUNDE = 5;
 const XP_PRO_RICHTIGE_ANTWORT = 10;
@@ -110,7 +143,7 @@ function quizStarten(alsChallenge) {
   istChallenge = alsChallenge === true;
   xpProAntwort = istChallenge ? XP_PRO_RICHTIGE_ANTWORT * 2 : XP_PRO_RICHTIGE_ANTWORT;
   levelVorRunde = aktuellesLevel();
-  fragen = [...WOERTER].sort(() => Math.random() - 0.5).slice(0, FRAGEN_PRO_RUNDE);
+  fragen = fragenAuswaehlen();
   frageNr = 0;
   richtig = 0;
   zeigeBildschirm("quiz-screen");
@@ -142,6 +175,8 @@ function frageZeigen() {
 }
 
 function antwortPruefen(geklickterBtn, istRichtig) {
+  lernstandMerken(fragen[frageNr].en, istRichtig);
+
   // Alle Buttons sperren und die richtige Antwort grün markieren
   for (const b of document.querySelectorAll(".answer")) {
     b.disabled = true;
