@@ -237,6 +237,99 @@ function rundeBeenden() {
   zeigeBildschirm("result-screen");
 }
 
+// ----- Aussprache-Training -----
+// Vorlesen (Text-to-Speech) und Zuhören (Spracherkennung) sind im Browser eingebaut.
+const Erkennung = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+let sprechWoerter = [];
+let sprechNr = 0;
+
+function vorsprechen(text) {
+  speechSynthesis.cancel(); // falls noch etwas läuft
+  const stimme = new SpeechSynthesisUtterance(text);
+  stimme.lang = "en-GB";
+  stimme.rate = 0.9; // etwas langsamer, gut zum Nachsprechen
+  speechSynthesis.speak(stimme);
+}
+
+function ausspracheStarten() {
+  sprechWoerter = [...WOERTER].sort(() => Math.random() - 0.5).slice(0, FRAGEN_PRO_RUNDE);
+  sprechNr = 0;
+  zeigeBildschirm("speak-screen");
+  sprechwortZeigen();
+}
+
+function sprechwortZeigen() {
+  const wort = sprechWoerter[sprechNr];
+  document.getElementById("speak-progress").textContent =
+    "Wort " + (sprechNr + 1) + " von " + FRAGEN_PRO_RUNDE;
+  document.getElementById("speak-word").textContent = wort.en;
+  document.getElementById("speak-de").textContent = wort.de;
+  document.getElementById("speak-feedback").textContent = "";
+  document.getElementById("speak-next-btn").textContent = "Überspringen";
+  document.getElementById("mic-btn").disabled = false;
+  vorsprechen(wort.en);
+}
+
+function zuhoeren() {
+  const feedback = document.getElementById("speak-feedback");
+  const micBtn = document.getElementById("mic-btn");
+
+  if (!Erkennung) {
+    feedback.textContent = "😕 Dieser Browser kann leider keine Spracheingabe – probier Chrome, Edge oder Safari.";
+    return;
+  }
+
+  const ziel = sprechWoerter[sprechNr].en.toLowerCase();
+  const rec = new Erkennung();
+  rec.lang = "en-GB";
+  micBtn.disabled = true;
+  micBtn.textContent = "🎙️ Ich höre zu ...";
+  let hatReagiert = false; // damit es am Ende immer eine Rückmeldung gibt
+
+  rec.onresult = (e) => {
+    hatReagiert = true;
+    const gehoert = e.results[0][0].transcript.toLowerCase().trim();
+    if (gehoert === ziel || gehoert.includes(ziel)) {
+      feedback.textContent = "✅ Super ausgesprochen!";
+      xp += XP_PRO_RICHTIGE_ANTWORT;
+      localStorage.setItem("xp", xp);
+      anzeigen();
+      ton([523, 784]);
+      document.getElementById("speak-next-btn").textContent = "Weiter";
+    } else {
+      feedback.textContent = "Ich habe «" + gehoert + "» verstanden – probier's nochmal!";
+      ton([196]);
+    }
+  };
+
+  rec.onerror = () => {
+    hatReagiert = true;
+    feedback.textContent = "😕 Ich konnte nichts hören. Ist das Mikrofon erlaubt?";
+  };
+
+  rec.onend = () => {
+    if (!hatReagiert) {
+      feedback.textContent = "😕 Ich konnte nichts hören – sprich laut und deutlich!";
+    }
+    micBtn.disabled = false;
+    micBtn.textContent = "🎤 Jetzt nachsprechen";
+  };
+
+  rec.start();
+}
+
+function naechstesSprechwort() {
+  sprechNr++;
+  if (sprechNr < FRAGEN_PRO_RUNDE) {
+    sprechwortZeigen();
+  } else {
+    konfetti();
+    ton([523, 659, 784, 1047]);
+    zeigeBildschirm("home-screen");
+  }
+}
+
 // ----- Stall -----
 function stallZeigen() {
   const level = aktuellesLevel();
@@ -262,6 +355,11 @@ document.getElementById("challenge-btn").onclick = () => quizStarten(true);
 document.getElementById("again-btn").onclick = () => quizStarten(false);
 document.getElementById("home-btn").onclick = () => zeigeBildschirm("home-screen");
 document.getElementById("stable-btn").onclick = stallZeigen;
+document.getElementById("speak-btn").onclick = ausspracheStarten;
+document.getElementById("listen-btn").onclick = () => vorsprechen(sprechWoerter[sprechNr].en);
+document.getElementById("mic-btn").onclick = zuhoeren;
+document.getElementById("speak-next-btn").onclick = naechstesSprechwort;
+document.getElementById("speak-home-btn").onclick = () => zeigeBildschirm("home-screen");
 document.getElementById("stable-home-btn").onclick = () => zeigeBildschirm("home-screen");
 
 anzeigen();

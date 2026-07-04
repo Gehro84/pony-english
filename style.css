@@ -135,6 +135,24 @@ h2 { margin-bottom: 24px; }
 
 #streak { margin-top: 20px; font-weight: bold; font-size: 1.1rem; }
 
+/* Aussprache-Training */
+.speak {
+  background: #22c55e;
+  color: white;
+  box-shadow: 0 6px 0 #15803d;
+  margin-top: 12px;
+}
+
+.speak:active { box-shadow: 0 2px 0 #15803d; }
+
+#speak-word { font-size: 2.4rem; margin-bottom: 4px; }
+
+#speak-de { opacity: 0.9; margin-bottom: 24px; }
+
+#listen-btn { margin-bottom: 12px; }
+
+#speak-feedback { min-height: 1.6em; margin: 16px 0; font-weight: bold; }
+
 /* Konfetti */
 .confetti {
   position: fixed;
