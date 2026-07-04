@@ -9,4 +9,5 @@ const PFERDE = [
   { name: "Shadow",  emoji: "🐴", level: 6,  farbe: "linear-gradient(160deg, #27272a, #52525b)" },
   { name: "Blitz",   emoji: "🐎", level: 8,  farbe: "linear-gradient(160deg, #ca8a04, #a16207)" },
   { name: "Rainbow", emoji: "🦄", level: 10, farbe: "linear-gradient(160deg, #8b5cf6, #ec4899, #f59e0b)" },
+  { name: "Seppi", emoji: "🦄", level: 10, farbe: "linear-gradient(160deg, #8b5cf6, #ec4899, #f59e0b)" },
 ];
