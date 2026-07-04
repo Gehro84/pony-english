@@ -1,0 +1,11 @@
+{
+  "name": "Pony English",
+  "short_name": "Pony English",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#7c3aed",
+  "theme_color": "#7c3aed",
+  "icons": [
+    { "src": "icon.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

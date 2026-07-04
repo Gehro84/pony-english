@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pony English</title>
+  <meta name="theme-color" content="#7c3aed">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="icon" href="icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div id="level">Level 1</div>
+    <div class="xp-bar"><div id="xp-fill"></div></div>
+    <div id="xp-text">0 XP</div>
+  </header>
+
+  <main>
+    <!-- Startbildschirm -->
+    <section id="home-screen">
+      <h1>🐴 Pony English</h1>
+      <p>Lerne Englisch und schalte Pferde frei!</p>
+      <button id="start-btn" class="big-btn">Vokabel-Quiz starten</button>
+      <button id="challenge-btn" class="big-btn challenge">⭐ Tages-Challenge (doppelte XP)</button>
+      <button id="stable-btn" class="big-btn secondary">🏠 Mein Stall</button>
+      <p id="streak"></p>
+    </section>
+
+    <!-- Quiz-Bildschirm -->
+    <section id="quiz-screen" hidden>
+      <p id="quiz-progress"></p>
+      <h2 id="question"></h2>
+      <div id="answers"></div>
+    </section>
+
+    <!-- Ergebnis-Bildschirm -->
+    <section id="result-screen" hidden>
+      <h2 id="result-title"></h2>
+      <p id="result-text"></p>
+      <div id="result-horse" hidden></div>
+      <button id="again-btn" class="big-btn">Nochmal spielen</button>
+      <button id="home-btn" class="big-btn secondary">Zurück zum Start</button>
+    </section>
+
+    <!-- Stall-Bildschirm -->
+    <section id="stable-screen" hidden>
+      <h2>🏠 Mein Stall</h2>
+      <div id="stable"></div>
+      <button id="stable-home-btn" class="big-btn secondary">Zurück zum Start</button>
+    </section>
+  </main>
+
+  <script src="words.js"></script>
+  <script src="pferde.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
