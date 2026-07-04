@@ -303,9 +303,19 @@ function zuhoeren() {
     }
   };
 
-  rec.onerror = () => {
+  rec.onerror = (e) => {
     hatReagiert = true;
-    feedback.textContent = "😕 Ich konnte nichts hören. Ist das Mikrofon erlaubt?";
+    // Der technische Fehlercode verrät uns, woran es liegt
+    const hinweise = {
+      "not-allowed": "Das Mikrofon ist blockiert – bitte in den Browser- oder Geräte-Einstellungen erlauben.",
+      "service-not-allowed": "Dieser Browser darf den Sprachdienst nicht nutzen.",
+      "audio-capture": "Es wurde kein Mikrofon gefunden.",
+      "network": "Die Spracherkennung braucht eine Internetverbindung zum Sprachdienst.",
+      "no-speech": "Ich habe nichts gehört – sprich laut und deutlich!",
+      "language-not-supported": "Dieser Browser unterstützt die Englisch-Erkennung nicht.",
+    };
+    feedback.textContent =
+      "😕 " + (hinweise[e.error] || "Unerwarteter Fehler.") + " (Code: " + e.error + ")";
   };
 
   rec.onend = () => {
