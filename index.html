@@ -25,6 +25,7 @@
       <button id="start-btn" class="big-btn">Vokabel-Quiz starten</button>
       <button id="challenge-btn" class="big-btn challenge">⭐ Tages-Challenge (doppelte XP)</button>
       <button id="speak-btn" class="big-btn speak">🎤 Aussprache üben</button>
+      <button id="dialog-btn" class="big-btn dialog">💬 Dialoge üben</button>
       <button id="stable-btn" class="big-btn secondary">🏠 Mein Stall</button>
       <p id="streak"></p>
     </section>
@@ -57,6 +58,21 @@
       <button id="speak-home-btn" class="big-btn secondary">Zurück zum Start</button>
     </section>
 
+    <!-- Dialog-Auswahl -->
+    <section id="dialog-wahl-screen" hidden>
+      <h2>💬 Wähle ein Gespräch</h2>
+      <div id="dialog-liste"></div>
+      <button id="dialog-wahl-home-btn" class="big-btn secondary">Zurück zum Start</button>
+    </section>
+
+    <!-- Dialog-Chat -->
+    <section id="dialog-screen" hidden>
+      <h2 id="dialog-titel"></h2>
+      <div id="chat"></div>
+      <div id="dialog-antworten"></div>
+      <button id="dialog-home-btn" class="big-btn secondary">Gespräch verlassen</button>
+    </section>
+
     <!-- Stall-Bildschirm -->
     <section id="stable-screen" hidden>
       <h2>🏠 Mein Stall</h2>
@@ -67,6 +83,7 @@
 
   <script src="words.js"></script>
   <script src="pferde.js"></script>
+  <script src="dialoge.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

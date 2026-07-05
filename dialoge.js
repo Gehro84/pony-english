@@ -1,0 +1,76 @@
+// Gesprächs-Trainings auf 6.-Klasse-Niveau.
+// Jeder Schritt: der Partner sagt etwas ("sagt"), das Kind wählt eine Antwort.
+// Es gibt keine falschen Antworten – alle passen zum Gespräch.
+// Neue Dialoge: einfach einen Block nach gleichem Muster ergänzen.
+const DIALOGE = [
+  {
+    titel: "Im Restaurant",
+    emoji: "🍕",
+    schritte: [
+      { sagt: "Good evening! A table for two?",
+        antworten: ["Yes, please.", "Good evening! Yes, for me and my mum."] },
+      { sagt: "Here is the menu. What would you like to drink?",
+        antworten: ["An apple juice, please.", "Just water, please.", "A lemonade for me, please."] },
+      { sagt: "And what would you like to eat?",
+        antworten: ["The pizza with cheese, please.", "I'd like the spaghetti, please."] },
+      { sagt: "Good choice! Would you like anything else?",
+        antworten: ["No, thank you.", "Yes, some bread, please."] },
+      { sagt: "Here you are. Enjoy your meal!",
+        antworten: ["Thank you very much!", "Thanks, it looks delicious!"] },
+      { sagt: "Did you enjoy your meal? That's 20 francs, please.",
+        antworten: ["Yes, it was great! Here you are.", "Yes, thank you. Can I pay by card?"] },
+    ],
+  },
+  {
+    titel: "Kleider kaufen",
+    emoji: "🛍️",
+    schritte: [
+      { sagt: "Hello! Can I help you?",
+        antworten: ["Yes, I'm looking for a T-shirt.", "Hi! Do you have hoodies?"] },
+      { sagt: "Sure! What size do you need?",
+        antworten: ["Small, please.", "Medium, I think."] },
+      { sagt: "And which colour do you like?",
+        antworten: ["Blue is my favourite.", "Do you have it in black?"] },
+      { sagt: "Here you are. Do you want to try it on?",
+        antworten: ["Yes, please. Where are the changing rooms?", "No thanks, I'm sure it fits."] },
+      { sagt: "It looks great on you! It costs 15 francs.",
+        antworten: ["Great, I'll take it!", "OK, here is the money."] },
+      { sagt: "Thank you! Have a nice day!",
+        antworten: ["Thanks, you too!", "Goodbye!"] },
+    ],
+  },
+  {
+    titel: "Auf dem Reiterhof",
+    emoji: "🐴",
+    schritte: [
+      { sagt: "Hi! Welcome to the horse farm. Is this your first time?",
+        antworten: ["Yes, I'm a bit nervous.", "No, I ride every week!"] },
+      { sagt: "Don't worry! This is Luna. Do you want to brush her first?",
+        antworten: ["Yes, I'd love to!", "OK! What do I need?"] },
+      { sagt: "Here is the brush. Horses love it. Now, put on your helmet.",
+        antworten: ["Like this?", "OK, the helmet is on!"] },
+      { sagt: "Perfect! Now sit up slowly. Are you ready?",
+        antworten: ["Yes, I'm ready!", "One moment ... OK, ready!"] },
+      { sagt: "Great! Luna likes you. Shall we walk to the forest?",
+        antworten: ["Yes! This is so much fun!", "Good idea! Luna is wonderful."] },
+      { sagt: "You did really well today! See you next week?",
+        antworten: ["Yes, definitely! Thank you!", "I can't wait! Goodbye!"] },
+    ],
+  },
+  {
+    titel: "Eine neue Freundin",
+    emoji: "👋",
+    schritte: [
+      { sagt: "Hi! I'm Emma. I'm new at this school. What's your name?",
+        antworten: ["Hi! Nice to meet you, Emma.", "Hello Emma! Welcome!"] },
+      { sagt: "Thanks! Where are you from?",
+        antworten: ["I'm from Switzerland.", "From here! I live in the village."] },
+      { sagt: "Cool! What do you like doing in your free time?",
+        antworten: ["I love riding horses.", "I like football and games."] },
+      { sagt: "That sounds fun! Can I come with you some time?",
+        antworten: ["Of course! That would be great.", "Sure, let's go together on Saturday."] },
+      { sagt: "Great! Do you want to sit next to me at lunch?",
+        antworten: ["Yes, sure!", "Good idea, let's go!"] },
+    ],
+  },
+];

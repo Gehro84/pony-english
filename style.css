@@ -153,6 +153,51 @@ h2 { margin-bottom: 24px; }
 
 #speak-feedback { min-height: 1.6em; margin: 16px 0; font-weight: bold; }
 
+/* Dialog-Training */
+.dialog {
+  background: #3b82f6;
+  color: white;
+  box-shadow: 0 6px 0 #1d4ed8;
+  margin-top: 12px;
+}
+
+.dialog:active { box-shadow: 0 2px 0 #1d4ed8; }
+
+#dialog-liste { display: grid; gap: 12px; margin-bottom: 24px; }
+
+#chat {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  max-height: 45vh;
+  overflow-y: auto;
+  margin-bottom: 16px;
+}
+
+.bubble {
+  padding: 10px 14px;
+  border-radius: 16px;
+  max-width: 85%;
+  animation: einblenden 0.3s;
+}
+
+.bubble.partner {
+  background: rgba(255, 255, 255, 0.92);
+  color: #333;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+.bubble.ich {
+  background: #facc15;
+  color: #422006;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+#dialog-antworten { display: grid; gap: 10px; margin-bottom: 12px; }
+
 /* Konfetti */
 .confetti {
   position: fixed;

@@ -340,6 +340,86 @@ function naechstesSprechwort() {
   }
 }
 
+// ----- Dialog-Training -----
+const XP_PRO_DIALOG = 20;
+
+let dialog = null;
+let dialogSchritt = 0;
+
+function dialogWahlZeigen() {
+  const liste = document.getElementById("dialog-liste");
+  liste.innerHTML = "";
+  for (const d of DIALOGE) {
+    const btn = document.createElement("button");
+    btn.className = "big-btn answer";
+    btn.textContent = d.emoji + " " + d.titel;
+    btn.onclick = () => dialogStarten(d);
+    liste.appendChild(btn);
+  }
+  zeigeBildschirm("dialog-wahl-screen");
+}
+
+function dialogStarten(gewaehlt) {
+  dialog = gewaehlt;
+  dialogSchritt = 0;
+  document.getElementById("dialog-titel").textContent = dialog.emoji + " " + dialog.titel;
+  document.getElementById("chat").innerHTML = "";
+  zeigeBildschirm("dialog-screen");
+  dialogWeiter();
+}
+
+// Hängt eine Sprechblase an den Chat ("partner" links, "ich" rechts)
+function blase(text, wer) {
+  const b = document.createElement("div");
+  b.className = "bubble " + wer;
+  b.textContent = text;
+  document.getElementById("chat").appendChild(b);
+  b.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function dialogWeiter() {
+  const schritt = dialog.schritte[dialogSchritt];
+  blase(schritt.sagt, "partner");
+  vorsprechen(schritt.sagt);
+
+  const box = document.getElementById("dialog-antworten");
+  box.innerHTML = "";
+  for (const antwort of schritt.antworten) {
+    const btn = document.createElement("button");
+    btn.className = "big-btn answer";
+    btn.textContent = antwort;
+    btn.onclick = () => dialogAntwort(antwort);
+    box.appendChild(btn);
+  }
+}
+
+function dialogAntwort(antwort) {
+  blase(antwort, "ich");
+  document.getElementById("dialog-antworten").innerHTML = "";
+  dialogSchritt++;
+  if (dialogSchritt < dialog.schritte.length) {
+    setTimeout(dialogWeiter, 800); // kurze Pause, wirkt wie echtes Antworten
+  } else {
+    setTimeout(dialogEnde, 800);
+  }
+}
+
+function dialogEnde() {
+  blase("🎉 Well done! You finished the conversation. +" + XP_PRO_DIALOG + " XP", "partner");
+  xp += XP_PRO_DIALOG;
+  localStorage.setItem("xp", xp);
+  anzeigen();
+  konfetti();
+  ton([523, 659, 784, 1047]);
+
+  const box = document.getElementById("dialog-antworten");
+  const btn = document.createElement("button");
+  btn.className = "big-btn";
+  btn.textContent = "Fertig 🎉";
+  btn.onclick = dialogWahlZeigen;
+  box.appendChild(btn);
+}
+
 // ----- Stall -----
 function stallZeigen() {
   const level = aktuellesLevel();
@@ -370,6 +450,9 @@ document.getElementById("listen-btn").onclick = () => vorsprechen(sprechWoerter[
 document.getElementById("mic-btn").onclick = zuhoeren;
 document.getElementById("speak-next-btn").onclick = naechstesSprechwort;
 document.getElementById("speak-home-btn").onclick = () => zeigeBildschirm("home-screen");
+document.getElementById("dialog-btn").onclick = dialogWahlZeigen;
+document.getElementById("dialog-wahl-home-btn").onclick = () => zeigeBildschirm("home-screen");
+document.getElementById("dialog-home-btn").onclick = () => zeigeBildschirm("home-screen");
 document.getElementById("stable-home-btn").onclick = () => zeigeBildschirm("home-screen");
 
 anzeigen();
